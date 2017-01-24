@@ -1,0 +1,3 @@
+module add --name=com.oracle \
+           --resources=/tmp/ojdbc7.jar \
+           --dependencies=javax.api,javax.transaction.api

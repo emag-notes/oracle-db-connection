@@ -1,0 +1,27 @@
+embed-server
+
+batch
+
+# JDBC Driver の定義
+/subsystem=datasources/jdbc-driver=oracle:add( \
+  driver-name=oracle, \
+  driver-module-name=com.oracle, \
+  driver-xa-datasource-class-name=oracle.jdbc.xa.client.OracleXADataSource \
+)
+
+# データソースの作成
+/subsystem=datasources/data-source=TestDS:add( \
+  connection-url=jdbc:oracle:thin:@localhost:1521:orcl,\
+  jndi-name=java:/jdbc/TestDS, \
+  driver-name=oracle \
+)
+
+# 必要に応じてデータソースの各属性の設定
+## JTA 無効
+/subsystem=datasources/data-source=TestDS/:write-attribute(name=jta,value=false)
+
+## ユーザ名とパスワード
+/subsystem=datasources/data-source=TestDS/:write-attribute(name=user-name,value="sys as sysdba")
+/subsystem=datasources/data-source=TestDS/:write-attribute(name=password,value=admin)
+
+run-batch
